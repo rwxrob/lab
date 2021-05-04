@@ -1,4 +1,4 @@
-# Lab Exploration and Experimentation
+# Labs for Exploring, Experimenting, Exercising
 
 *Learning happens in the lab, not the lecture hall.*
 
