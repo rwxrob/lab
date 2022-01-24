@@ -1,4 +1,4 @@
-# Lab for Exploring, Experimenting, Exercising
+# Sandbox for Exploring, Experimenting 
 
 *Learning happens in the lab, not the lecture hall.*
 
