@@ -1,0 +1,13 @@
+Mark      <- Span* !.
+Span      <- StrongEm / Strong / Emphasis / Link / Code / Plain
+StrongEm  <- '***' .* '***'
+Strong    <- '**' .* '**'
+Emphasis  <- '*' .* '*'
+Link      <- '<' .* '>'
+Code      <- '`' .* '`'
+Plain     <- DQUOTE / QUOTE / LARROW / RARROW / ELLIPSIS / .*
+DQUOTE    <- '"'
+QUOTE     <- "'"
+LARROW    <- " <- " 
+RARROW    <- " -> " 
+ELLIPSIS  <- '...'
