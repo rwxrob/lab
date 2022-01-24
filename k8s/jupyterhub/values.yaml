@@ -1,0 +1,80 @@
+hub:
+  networkPolicy:
+    enabled: false
+  extraConfig:
+    00-kubespawner-namespaces: |
+
+      c.KubeSpawner.enable_user_namespaces = True
+      c.JupyterHub.allow_named_servers = True
+      c.KubeSpawner.user_namespace_template = "{username}"
+      c.KubeSpawner.extra_annotations = {"sidecar.istio.io/inject": "false"}
+      c.KubeSpawner.hub_connect_url = "http://hub.jhub.svc.cluster.local:8081"
+      c.KubeSpawner.options_form = '''
+         <p>You may change the specified image to any
+         compatible JupyterHub server image 
+         provided it is accessible from this 
+         Kubernetes cluster. Your server pod will run under your cluster
+         namespace where it can be accessed and managed from
+         <code>kubectl</code> as well. Specifying a non-existent
+         or incompatible image will hang
+         the server pod (ErrImagePull) and require cleanup.
+         When in doubt, use the default.
+         </p>
+         <input type=hidden id=profile name=profile>
+
+         <label for=image>Specify Container Image: </label>
+         <input class="form-control" id=image name=image
+         value="jupyter/datascience-notebook:latest">
+
+         <label for=image>Specify Minimum CPU: </label>
+         <input class="form-control" id=cpu_guarantee name=cpu_guarantee
+         value="1">
+
+         <label for=image>Specify Minimum RAM: </label>
+         <input class="form-control" id=mem_guarantee name=mem_guarantee
+         value="1G">
+
+         <!-- TODO
+         <input id=gpus name=gpus>
+         <input id=gputype name=gputype>
+         -->
+         <script>
+           let form = document.querySelector('#spawn_form')
+           form.onchange = e => {
+             data = new FormData(form)
+             data.delete('profile')
+             profile.value = new URLSearchParams(data).toString()
+             console.log(profile.value)
+           }
+           form.onchange()
+         </script>
+         '''
+
+      async def options_from_form(formdata):
+        import urllib.parse
+        options = {}
+        data = formdata["profile"][0] # MUST be 'profile'
+        datamap = urllib.parse.parse_qs(data)
+        # TODO validate profile is actually name of image 
+        options["image"] = datamap["image"][0]
+        options["cpu_guarantee"] = float(datamap["cpu_guarantee"][0])
+        options["mem_guarantee"] = datamap["mem_guarantee"][0]
+        return options
+
+      c.KubeSpawner.options_from_form = options_from_form
+
+      async def custom_pre_spawn_hook(sp):
+        sp.image = sp.user_options.get("image",'jupyter/datascience-notebook:latest')
+        sp.cpu_guarantee = sp.user_options.get("cpu_guarantee",1)
+        sp.mem_guarantee = sp.user_options.get("mem_guarantee",'1G')
+
+      c.KubeSpawner.pre_spawn_hook = custom_pre_spawn_hook
+
+prePuller:
+  continuous:
+    enabled: false
+  hook:
+    enabled: false
+
+singleuser:
+  defaultUrl: /lab

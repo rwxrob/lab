@@ -1,0 +1,31 @@
+<!doctype HTML>
+
+<form method=post id=spawn_form>
+
+  <!----- begin section to paste into -->
+  <input type=hidden id=profile name=profile>
+
+  <input id=image name=image>
+
+  <!-- TODO
+  <input id=cores name=cores>
+  <input id=ram name=ram>
+  <input id=gpus name=gpus>
+  <input id=gputype name=gputype>
+  -->
+
+  <script>
+    let form = document.querySelector('#spawn_form')
+    form.onchange = e => {
+      data = new FormData(form)
+      data.delete('profile')
+      profile.value = new URLSearchParams(data).toString()
+      console.log(profile.value)
+    }
+  </script>
+
+  <!------------------------- end cut -->
+
+  <input type=submit>
+
+</form>

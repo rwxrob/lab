@@ -1,0 +1,166 @@
+hub:
+  networkPolicy:
+    enabled: false
+  extraConfig:
+    00-kubespawner-namespaces: |
+      c.KubeSpawner.enable_user_namespaces = True
+      c.JupyterHub.allow_named_servers = True
+      c.KubeSpawner.user_namespace_template = "{username}"
+      c.KubeSpawner.hub_connect_url = "http://hub.jhub.svc.cluster.local:8081"
+      c.KubeSpawner.environment = { "foo":"FOO"}
+      c.KubeSpawner.profile_list = [
+         {
+           "display_name": "Base",
+           "kubespawner_override": {
+             "image": "jupyter/base-notebook"
+           },
+           "description": "Small base image provided by Jupyter project supporting the\noptions common across all stacks for which this is the foundation.\nAll other official images are built on this base. Includes\nMiniforge Python 3.x in /opt/conda with conda and mamba.  Has\nnotebook, jupyterhub, and jupyterlab packages but no scientific\ncomputing packages. Does not include basic things like a text\neditor and has no LaTeX support for saving notebooks as PDFs.\n"
+         }
+         {
+           "display_name": "Minimal",
+           "kubespawner_override": {
+             "image": "jupyter/minimal-notebook"
+           },
+           "description": "Builds on Base. Contains everything in base notebook plus command\nline tools useful for working with Jupyter applications including\nTeX Live, git, vi (vim-tiny), nano (nano-tiny), tzdata, and unzip.\nThis official image is maintained by the Jupyter project.\n"
+         }
+         {
+           "display_name": "R",
+           "kubespawner_override": {
+             "image": "jupyter/r-notebook"
+           },
+           "description": "Builds on Minimal. Includes popular packages from the R ecosystem\nsuch as the R interpreter, IRKernel, tidyverse packages from\nconda-forge, caret, crayon, devtools, forecast, hexbin, htmltools,\nhtmlwidgets, nycflights13, randomforest, rcurl, rmarkdown, rodbc,\nrsqlite, shiny, tidymodels, unixodbc packages from conda-forge.\nThis official image is maintained by the Jupyter project.\n"
+         }
+         {
+           "display_name": "SciPy",
+           "kubespawner_override": {
+             "image": "jupyter/scipy-notebook"
+           },
+           "description": "Builds on Minimal. Includes popular packages from the scientific\nPython ecosystem such as altair, beautifulsoup4, bokeh, bottleneck,\ncloudpickle, conda-forge::blas=*=openblas, cython, dask, dill,\nh5py, matplotlib-base, numba, numexpr, pandas, patsy, protobuf,\npytables, scikit-image, scikit-learn, scipy, seaborn, sqlalchemy,\nstatsmodel, sympy, widgetsnbextension, xlrd packages, ipympl and\nipywidgets for interactive visualizations and plots in Python\nnotebooks, facets for visualizing machine learning datasets.\nThis official image is maintained by the Jupyter project.\n"
+         }
+         {
+           "display_name": "Tensorflow",
+           "kubespawner_override": {
+             "image": "jupyter/tensorflow-notebook"
+           },
+           "description": "Build on SciPy. Contains the Tensorflow machine learning library.\nThis official image is maintained by the Jupyter project.\n"
+         }
+         {
+           "display_name": "Datascience",
+           "default": true,
+           "kubespawner_override": {
+             "image": "jupyter/datascience-notebook"
+           },
+           "description": "Recommended default. Builds on SciPy and R images. Includes rpy2\npackage, Julia compiler and environment, IJulia, and  HDF5, Gadfly,\nRDatasets packages. This official image is maintained by the\nJupyter project.\n"
+         }
+         {
+           "display_name": "PySpark",
+           "kubespawner_override": {
+             "image": "jupyter/pyspark-notebook"
+           },
+           "description": "Builds on SciPy. Contains Apache Spark with Hadoop binaries,\npyarrow library. This official image is maintained by the Jupyter\nproject.\n"
+         }
+         {
+           "display_name": "AllSpark",
+           "kubespawner_override": {
+             "image": "jupyter/all-spark-notebook"
+           },
+           "description": "Builds on PySpark. Included IRKernel to support R code in Jupyter\nnotebooks, rcurl, sparklyr, ggplot2 packages, spylon-kernel to\nsupport Scala code in Jupyter notebooks. This official image is\nmaintained by the Jupyter project.\n"
+         }
+
+      ]
+
+#       See <a href="https://jupyter-docker-stacks.readthedocs.io">Jupyter
+#       Docker Stacks</a> for more information on the contents of these
+#       stacks as well as other community maintained stacks.
+
+
+prePuller:
+  continuous:
+    enabled: false
+  hook:
+    enabled: false
+
+singleuser:
+  defaultUrl: /lab
+  profileList:
+
+  - display_name: "Base"
+    kubespawner_override:
+      image: jupyter/base-notebook
+    description: |
+      Small base image provided by Jupyter project supporting the
+      options common across all stacks for which this is the foundation.
+      All other official images are built on this base. Includes
+      Miniforge Python 3.x in /opt/conda with conda and mamba.  Has
+      notebook, jupyterhub, and jupyterlab packages but no scientific
+      computing packages. Does not include basic things like a text
+      editor and has no LaTeX support for saving notebooks as PDFs.
+
+
+  - display_name: "Minimal"
+    kubespawner_override:
+      image: jupyter/minimal-notebook
+    description: |
+      Builds on Base. Contains everything in base notebook plus command
+      line tools useful for working with Jupyter applications including
+      TeX Live, git, vi (vim-tiny), nano (nano-tiny), tzdata, and unzip.
+      This official image is maintained by the Jupyter project.
+
+  - display_name: "R"
+    kubespawner_override:
+      image: jupyter/r-notebook
+    description: |
+      Builds on Minimal. Includes popular packages from the R ecosystem
+      such as the R interpreter, IRKernel, tidyverse packages from
+      conda-forge, caret, crayon, devtools, forecast, hexbin, htmltools,
+      htmlwidgets, nycflights13, randomforest, rcurl, rmarkdown, rodbc,
+      rsqlite, shiny, tidymodels, unixodbc packages from conda-forge.
+      This official image is maintained by the Jupyter project.
+
+  - display_name: "SciPy"
+    kubespawner_override:
+      image: jupyter/scipy-notebook
+    description: |
+      Builds on Minimal. Includes popular packages from the scientific
+      Python ecosystem such as altair, beautifulsoup4, bokeh, bottleneck,
+      cloudpickle, conda-forge::blas=*=openblas, cython, dask, dill,
+      h5py, matplotlib-base, numba, numexpr, pandas, patsy, protobuf,
+      pytables, scikit-image, scikit-learn, scipy, seaborn, sqlalchemy,
+      statsmodel, sympy, widgetsnbextension, xlrd packages, ipympl and
+      ipywidgets for interactive visualizations and plots in Python
+      notebooks, facets for visualizing machine learning datasets.
+      This official image is maintained by the Jupyter project.
+
+  - display_name: "Tensorflow"
+    kubespawner_override:
+      image: jupyter/tensorflow-notebook
+    description: |
+      Build on SciPy. Contains the Tensorflow machine learning library.
+      This official image is maintained by the Jupyter project.
+
+  - display_name: "Datascience"
+    default: true
+    kubespawner_override:
+      image: jupyter/datascience-notebook
+    description: |
+      Recommended default. Builds on SciPy and R images. Includes rpy2
+      package, Julia compiler and environment, IJulia, and  HDF5, Gadfly,
+      RDatasets packages. This official image is maintained by the
+      Jupyter project.
+
+  - display_name: "PySpark"
+    kubespawner_override:
+      image: jupyter/pyspark-notebook
+    description: |
+      Builds on SciPy. Contains Apache Spark with Hadoop binaries,
+      pyarrow library. This official image is maintained by the Jupyter
+      project.
+
+  - display_name: "AllSpark"
+    kubespawner_override:
+      image: jupyter/all-spark-notebook
+    description: |
+      Builds on PySpark. Included IRKernel to support R code in Jupyter
+      notebooks, rcurl, sparklyr, ggplot2 packages, spylon-kernel to
+      support Scala code in Jupyter notebooks. This official image is
+      maintained by the Jupyter project.
