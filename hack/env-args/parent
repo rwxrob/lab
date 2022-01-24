@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export MYPASS=foobar
+./child anotherpassword &
+
+while true; do
+  sleep 1
+done

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "Explore /proc/$$ to see all my 'secrets'"
+
+while true; do
+  sleep 1
+done
