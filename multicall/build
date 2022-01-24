@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+pandoc -s README.md -o index.html 2>/dev/null
+docker build --no-cache -t 'lab-multicall' -t 'rwxrob/lab-multicall' . &&
+  docker push 'rwxrob/lab-multicall'

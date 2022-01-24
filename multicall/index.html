@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="learn-multicall-binaries-busybox-cmdbox-etc.">Learn Multicall Binaries (BusyBox, CmdBox, etc.)</h1>
+<p>Multicall is the method of causing a program to do different things based solely on its name and creating copies and links with those different names. This method garner more attention since the popular <a href="https://www.busybox.net">BusyBox</a> uses this method for the ultralight base <a href="https://hub.docker.com/_/busybox">base container</a> of the same name. BusyBox was originally created to fit almost all the main shell tools from Linux onto a “single floppy disk.”</p>
+<p><a href="https://github.com/rwxrob/cmdbox">CmdBox</a> also uses multicall, but allows developers to write their commands in Go (instead of C) and compose them together.</p>
+<h2 id="requirements">Requirements</h2>
+<p>Create a program that behaves differently depending on how it is named, specifically it should include the following:</p>
+<ol type="1">
+<li>Create a program named <code>greet</code> that prints “Greetings!”</li>
+<li>Write a <code>build</code> POSIX shell script to compile (if necessary)</li>
+<li>Copy the <code>greet</code> to <code>hi</code> and have it print “Hi there!”</li>
+<li>Symlink <code>hello</code> to local path to <code>greet</code> and print “Hello.”</li>
+<li>Symlink <code>salut</code> to absolute path to <code>greet</code> and print “Salut!”</li>
+<li>Hard link <code>privet</code> to <code>greet</code> and print “Привет!”</li>
+<li>Put all of this in <code>build</code> function in <code>build</code> script</li>
+<li>Add a <code>run</code> function to <code>build</code> script that runs each</li>
+<li>Add a <code>clean</code> function to <code>build</code> script (be careful)</li>
+<li>Have <code>build</code> script take one arg matching function</li>
+<li>Have <code>build</code> script default to <code>build</code> with no args</li>
+</ol>
+<h2 id="examples">Examples</h2>
+<p>One possible solution (implemented in Go) is contained in the <a href="examples/greet">examples/greet</a> subdirectory. Study the <a href="examples/greet/build"><code>build</code></a> POSIX shell script specifically for ways to implement the multicall approach.</p>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="git">Git</h3>
+<p>To use Git simply fork this repo and clone it to your local system. This option requires you to have everything needed to code this from your own terminal:</p>
+<pre><code>gh repo fork rwxrob/lab-multicall
+gh repo clone fork lab-multicall</code></pre>
+<p>Note: This will require you to check your code to see that it meets the requirements yourself (which you should learn to do anyway). If you wanted more automated evaluation use the <a href="#docker">Docker</a> container instead.</p>
+<h3 id="docker-hub">Docker Hub</h3>
+<p>This lab is hosted on <a href="https://hub.docker.com/rwxrob/lab-multicall">hub.docker.io</a> enabling you to use it directly</p>
+<p><a href="#git">fork this repo</a> and change the <a href="Dockerfile">Dockerfile</a> to build <code>FROM &lt;yourbase&gt;</code>.</p>
+<pre><code>docker run -it -d --name multicall rwxrob/lab-multicall</code></pre>
+</body>
+</html>

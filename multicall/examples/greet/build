@@ -1,0 +1,31 @@
+#!/bin/sh
+
+build() {
+	go build -o greet main.go 
+	echo 'plain copy: hi'
+	cp greet hi
+	echo 'symbolic link (local): hello'
+	ln -sf greet hello
+	echo 'symbolic link (absolute): salut'
+	ln -sf "$PWD/greet" "$PWD/salut"
+	echo 'hard link: privet'
+	ln -f greet privet
+	echo 'Note the 2 indicating 2 hard links.'
+	ls -l --color=always
+}
+
+run() {
+	for cmd in greet hi hello salut privet; do
+		echo "greet -> $(./$cmd)"
+	done
+}
+
+clean() {
+	rm greet hi hello salut privet
+}
+
+case "$1" in 
+	run)   run;;
+	clean) clean;;
+	*)     build;;
+esac
