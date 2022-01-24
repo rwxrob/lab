@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# install dependencies
+sudo apt-get -y install \
+  qemu-kvm virtinst qemu virt-manager libvirt-daemon \
+  libvirt-daemon-system bridge-utils virt-viewer libvirt-clients \
+  libnss-libvirt virt-top
+
