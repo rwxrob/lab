@@ -1,0 +1,51 @@
+#!/bin/bash
+
+## FIXME there are definitely timing issues in this script, sometimes it
+## works, sometimes not depending on delays, etc.
+
+sudo rpm --import https://packages.icinga.com/icinga.key
+
+sudo yum -y update
+
+sudo yum -y install apache2 epel-release centos-release-scl \
+  https://packages.icinga.com/epel/icinga-rpm-release-7-latest.noarch.rpm \
+  icinga2 icingaweb2 nagios-plugins-all icinga2-selinux vim-icinga2 \
+  postgresql postgresql-server postgresql-contrib icinga2-ido-pgsql \
+  php php-intl php-imagick php-gd php-mysql php-curl php-mbstring
+
+sudo postgresql-setup initdb
+
+sudo systemctl enable --now icinga2
+sudo systemctl enable --now postgresql
+
+# WARNING: this is a local server setup in protected virtual network
+
+sudo -u postgres psql -c "CREATE ROLE icinga WITH LOGIN PASSWORD 'icinga'"
+sudo -u postgres psql -c "CREATE ROLE root WITH LOGIN PASSWORD 'password'"
+sudo -u postgres createdb -O icinga -E UTF8 icinga
+
+sudo echo <<EOM >> /var/lib/pgsql/data/pg_hba.conf
+local   icinga          icinga                               md5
+host    icinga          icinga          0.0.0.0/0            md5
+local   all             all                                  md5
+host    all             all             0.0.0.0/0            md5
+EOM
+
+sudo systemctl restart postgresql
+sudo psql -d icinga < /usr/share/icinga2-ido-pgsql/schema/pgsql.sql
+
+# TODO update /etc/icinga2/features-available/ido-pgsql.conf (if needed)
+
+sudo icinga2 feature enable ido-pgsql
+sudo systemctl restart icinga2
+
+# firewall
+
+sudo firewall-cmd --add-service=http
+sudo firewall-cmd --permanent --add-service=http
+sudo iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+sudo service iptables save
+
+# REST API (not web server)
+sudo icinga2 api setup
+sudo systemctl restart icinga2
