@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV["VAGRANT_DEFAULT_PROVIDER"] = "virtualbox"
+ENV["VAGRANT_EXPERIMENTAL"] = "disks"
+
+Vagrant.configure("2") do |config|
+  ["control","worker1","worker2"].each_with_index do |name, index|
+    config.vm.define "#{name}" do |node|
+      node.vm.box = "generic/alma8"
+      node.vm.hostname = "#{name}"
+      node.vm.provider "virtualbox" do |vb|
+        vb.linked_clone = true
+        vb.cpus = 1
+        vb.memory = 1024
+      end
+      if name == "control"
+        node.vm.disk :disk, size: "10MB", name: "extra" # small, so can fill
+      end
+      node.vm.provision :shell, path: "provision", keep_color: true
+      node.vm.base_mac = nil
+      node.vm.network "private_network", ip: "192.168.2.#{index + 2}"
+      #node.vm.network "private_network", type: "dhcp"
+    end
+  end
+end
+
+
