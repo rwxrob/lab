@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-pv-deploy
+spec:
+  selector:
+    matchLabels:
+      app: test-pv-deploy
+  template:
+    metadata:
+      labels:
+        app: test-pv-deploy
+    spec:
+      containers:
+      - name: main
+        image: ubuntu
+        volumeMounts:
+        - name: data-vol
+          mountPath: /mnt/data
+      volumes:
+      - name: data-vol
+        persistentVolumeClaim:
+          claimName: test-volume-claim
+
