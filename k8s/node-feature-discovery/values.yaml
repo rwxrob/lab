@@ -1,0 +1,4 @@
+worker:
+  config: |### <NFD-WORKER-CONF-START-DO-NOT-REMOVE>
+    core:
+      labelWhiteList: '^(custom|system|pci\-03)'

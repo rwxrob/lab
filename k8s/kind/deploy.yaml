@@ -1,0 +1,59 @@
+---                     # main deployment (httphey)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httphey
+spec:
+  selector:
+    matchLabels:
+      app: httphey
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: httphey
+    spec:
+      containers:
+      - name: httphey
+        image: localhost:5000/httphey:1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8080
+
+---                     # network service
+apiVersion: v1
+kind: Service
+metadata:
+  name: httphey
+spec:
+  type: NodePort
+  selector:
+    app: httphey
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
+
+---                     # login to get in-cluster
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login
+spec:
+  selector:
+    matchLabels:
+      app: login
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: login
+    spec:
+      containers:
+      - name: login
+        #image: localhost:5000/workspace
+        image: debian
+        imagePullPolicy: Always
+        command: ["/bin/bash"]
+        args: ["-c", "while true; do sleep 10; done"]

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+#env |grep HELM
+
+case "$1" in
+  -h | --help | help ) "$HELM_PLUGIN_DIR/help" ;;
+esac

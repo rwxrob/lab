@@ -1,0 +1,6 @@
+name: "validate"
+version: "0.1.0"
+usage: "apply OPA Gatekeeper policy checks"
+description: 
+  Apply OPA Gatekeeper policy checks.
+command: "$HELM_PLUGIN_DIR/validate"

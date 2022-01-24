@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+for image in base single control worker; do 
+  cd $image
+  ./build
+  cd -
+done
+

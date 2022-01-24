@@ -1,0 +1,7 @@
+name: "hi"
+version: "0.1.0"
+usage: "prints simplest greeting" # will show in `helm help`
+description:                     # shows up in `helm help hi`
+  The hi command prints the simplest greeting.
+ignoreFlags: true
+command: "$HELM_PLUGIN_DIR/hi"

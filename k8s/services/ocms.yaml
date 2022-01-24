@@ -1,0 +1,3 @@
+ocms: v1
+kind: Solution
+lab: rwxrob/lab-k8s-services@v0.1.0

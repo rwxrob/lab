@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+# create the cluster with two workers and one control plane
+#kind create cluster --config kind.yaml
+
+# set the default namespace for the context
+#kubectl config set-context --current --namespace filler
+
+# create a simple pod with PVC
+kubectl apply -f filler.yaml
+
+# start filling the PVC
+#kubectl create deployment --image rwxrob/filldisk filldisk

@@ -52,3 +52,18 @@ Related:
   <https://community.icinga.com/t/setting-up-the-postgresql-database/1622>
 * Advanced Topics - Icinga Web 2  
   <https://icinga.com/docs/icinga-web-2/latest/doc/20-Advanced-Topics/#automating-the-installation-of-icinga-web-2>
+
+
+Incinga in Kubernetes/Kind. It might not make sense for most to have
+Icinga completely contained in a Kubernetes cluster, but testing and
+ease of installation by itself is a compelling reason to consider it
+even if your final solution doesn't live in Kubernetes all the time.
+
+Related:
+
+* How to Install Icinga on Ubuntu
+  <https://www.digitalocean.com/community/tutorials/how-to-install-icinga-and-icinga-web-on-ubuntu-16-04>
+* Dockerizing Icinga any benefits? - Icinga 2 - Icinga Community  
+  <https://community.icinga.com/t/dockerizing-icinga-any-benefits/3546>
+* docker-compose Icinga  
+  <https://icinga.com/blog/2020/08/06/docker-compose-icinga/>

@@ -1,0 +1,20 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  ipFamily: ipv4
+  apiServerAddress: 127.0.0.1
+nodes:
+- role: control-plane
+  image: kindest/node:v1.21.2
+  extraMounts:
+  - hostPath: /mnt/kind
+    containerPath: /files
+  extraPortMappings:
+  - hostPort: 8000
+    containerPort: 8000
+  - hostPort: 30080
+    containerPort: 30080
+containerdConfigPatches:
+- |-
+  [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:5000"]
+    endpoint = ["http://reg:5000"]
