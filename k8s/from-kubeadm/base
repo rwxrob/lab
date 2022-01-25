@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# -------------------------- disable selinux -------------------------
+
+# TODO determine is really needed to turn off?
+#sudo setenforce 0
+#sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+# -------------------------- kernel upgrade --------------------------
+
+# TODO
+
+# ------------------------ kernel dependencies -----------------------

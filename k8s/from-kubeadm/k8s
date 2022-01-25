@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# --------------------------- disable swap ---------------------------
+
+sudo swapoff -a
+sudo sed -i '/ swap / s/^/#/' /etc/fstab
+
+# ----------------------------- iptables -----------------------------
+
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+
+sudo sysctl --system
+
+# ---------------------------- kernel mods ---------------------------
+
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+
+# ------------------------- disable firewall -------------------------
+
+# FIXME do firewall right
+sudo systemctl disable --now firewalld
+
+# ---------------------------- kubernetes ----------------------------
+
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+sudo systemctl enable --now kubelet
+
+# ------------------------------ crictl ------------------------------
+
+#TODO https://github.com/containerd/containerd/blob/main/docs/cri/crictl.md
+
+# ------------------------------ kubeadm -----------------------------
+
+# kubeadm init  --apiserver-advertise-address 192.168.2.2 
+
+# ------------- stuff do after kubeadm init has been run -------------
+
+# kubectl apply -f \
+#    https://docs.projectcalico.org/v3.21/manifests/calico.yaml

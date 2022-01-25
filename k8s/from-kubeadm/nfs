@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#sudo yum -y update
+
+sudo yum -y install nfs-utils
+sudo systemctl enable --now rpcbind
+sudo firewall-cmd --permanent --add-service=nfs
+sudo firewall-cmd --reload
+
+if [[ $(hostname) == control ]] ; then
+  sudo parted -s /dev/sdb "mklabel msdos mkpart primary 2048s 100%"
+  sudo mkfs -t ext4 -L /s /dev/sdb1
+  mkdir /s
+  chmod 777 /s
+  sudo systemctl enable --now nfs-server
+  sudo echo '/s 192.168.2.0/24(rw,sync,no_root_squash)' >> /etc/exports
+  sudo exportfs -a
+# not necessary for K8S StorageClass (but good for testing)
+#else
+#  sudo mkdir /s
+#  sudo mount 192.168.2.2:/s /s
+fi
