@@ -53,7 +53,8 @@ sudo systemctl enable --now kubelet
 
 # ------------------------------ kubeadm -----------------------------
 
-# kubeadm init --apiserver-advertise-address 10.0.0.2
+# kubeadm init --apiserver-advertise-address 10.0.0.2 \
+#              --pod-network-cidr 192.168.0.0/16
 
 # ------------- stuff do after kubeadm init has been run -------------
 
