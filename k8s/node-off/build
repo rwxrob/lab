@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#minikube start -p nodeofflab --nodes 3 --driver kvm2
+
+
+for i in {1..20}; do 
+  kubectl create deployment --image rwxrob/filldisk muahaha$i
+done
+

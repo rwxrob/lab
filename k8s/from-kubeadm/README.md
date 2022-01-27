@@ -22,15 +22,14 @@
    Provision each with the standard Kubernetes components
    and any other administrative tools you wish.
 
-1. **Install Kubernetes from `kubeadm`**
-
-1. **Run `kubeadm init` on `control`** to create a control plane and
-   create the first node (local to the control plane).
-
-1. **Deploy a Pod CNI** so that you have networking between your pods
-   (preferably Calico).
+1. **Initialize control-plane with `kubeadm init ...`**
 
 1. **Join the worker nodes** 
+
+1. **Deploy Calico CNI** so that you have networking between your pods.
+   Warning: this step requires some care when working with Vagrant
+   (which has horrible networking and takes over the default `eth0`
+   interface).
 
 1. **Create a StorageClass for the NFS Volume**
 
@@ -52,3 +51,6 @@ Related:
   <https://stackoverflow.com/questions/70229371/kubelet-service-is-not-running-it-seems-like-the-kubelet-isnt-running-or-healt>
 * <https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner>
 * <https://kubernetes.io/docs/reference/setup-tools/kubeadm/implementation-details/>
+* <https://levelup.gitconnected.com/how-to-use-nfs-in-kubernetes-cluster-storage-class-ed1179a83817>
+
+* <https://github.com/vagrant-libvirt/vagrant-libvirt#additional-disks>
