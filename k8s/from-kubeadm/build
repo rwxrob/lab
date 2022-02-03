@@ -1,0 +1,5 @@
+#!/bin/bash
+
+genisoimage -output cloudinit.iso -V cidata \
+  -r -J -input-charset utf-8 \
+  meta-data user-data

@@ -1,18 +1,27 @@
-# Setup Kubernetes from `kubeadm` (Vagrant)
+# Setup Kubernetes from `kubeadm`
+
+*Note: initially this lab used Vagrant but I've decided to use VMware
+base images with snapshots since they are faster to bring up and use
+Ansible for configuration where needed for additional configurations.*
 
 ## But first ...
 
-* Setup a true Linux workstation (on bare metal)
-* Install VirtualBox
-* Install Vagrant
-* Learn how to setup 3 Vagrant VMs with NFS enabled
+This particular lab makes several base assumptions about the approach
+that are consistent with the tools most used by working professionals.
+
+* Setup a Linux workstation (bare metal, WSL2 is fine)
+* Install VMware Workstation Pro (might work with VirtualBox)
+* Learn `cloud-init` for creating VMs
+* Learn how to setup 3 VMs with NFS enabled
 
 ## Tasks
 
-1. **Create three virtual machines** with enterprise Linux (preferably
-   RedHat variants: CentOS, ALMA), each with 2 cores, 2 GB RAM, 10 GB
-   storage named `control`, `node1` and `node2` (with matching
-   host names). 
+1. **Get a cloud-enabled version of enterprise Linux** (preferably
+   RedHat variation like Alma, Rocky, CentOS).
+
+1. **Create three virtual machines with `cloud-init`** each with 2
+   cores, 2 GB RAM, 10 GB storage named `control`, `node1` and `node2`
+   (with matching host names).
 
 1. **Create a small NFS volume** at the (`/s`) mount point. It should be
    able to be mounted from the `node` workers (but don't mount them,

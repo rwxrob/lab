@@ -1,0 +1,13 @@
+#cloud-config
+
+users:
+- name: rwxrob
+  sudo: ['ALL=(ALL) NOPASSWD: ALL']
+  lock_passwd: false
+  passwd: $5$hIk2gCtfc6MamyXQ$YJo.HLrDlRvRzD3.hfzH67.8nhVo5CbDJy822R6Gm.A
+  ssh_authorized_keys:
+    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXETTuUIx75wsuPWvMH+mcdPQCXmixYzz6dNxzildM/ rwxrob@tv
+
+fqdn: control.localdomain
+hostname: control
+manage_etc_hosts: true
