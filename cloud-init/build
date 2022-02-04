@@ -193,12 +193,12 @@ function create {
   fill "$VMX_TEMPLATE" > "${D[name]}.vmx"
 
   # fetch the cloud-init enabled disk image and convert to vmware
-  if [[ ! -d "${D[imgdir]}/${D[qcow2]}" ]]; then
+  if [[ ! -e "${D[imgdir]}/${D[qcow2]}" ]]; then
     fetch "${D[url]}" "${D[imgdir]}/${D[qcow2]}"
     qemu-img convert -O vmdk \
       "${D[imgdir]}/${D[qcow2]}" "${D[imgdir]}/${D[vmdk]}"
-    cp "${D[imgdir]}/${D[vmdk]}" "$dir"
   fi
+  cp "${D[imgdir]}/${D[vmdk]}" "$dir"
 
   # create the cloud-init configuration files
   touch "meta-data"
