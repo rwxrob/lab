@@ -106,6 +106,7 @@ users:
     shell: /bin/bash
     lock_passwd: false
     passwd: "{{passwd}}"
+
 fqdn: {{name}}.{{domain}}
 hostname: {{name}}
 manage_etc_hosts: true
