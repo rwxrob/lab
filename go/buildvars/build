@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-go build -ldflags="-X main.Version=$(head -1 VERSION)" 
+go build -ldflags="-X main.Version=$(head -1 VERSION) -X main.VersionConst=some" 
 
 # integers don't work
 # nope -X main.VersionInt=34"
