@@ -24,19 +24,17 @@ func NewYamlPrinter(
 	return yqlib.NewPrinter(enc, pwr)
 }
 
-func setupLogging() {
+func main() {
+
+	// shitty log shit
 	format := logging.MustStringFormatter(
 		`%{color}%{time:15:04:05} %{shortfunc} [%{level:.4s}]%{color:reset} %{message}`,
 	)
-	backend := logging.AddModuleLevel(
-		logging.NewBackendFormatter(logging.NewLogBackend(os.Stderr, "", 0), format))
+	b1 := logging.NewLogBackend(os.Stderr, "", 0)
+	b2 := logging.AddModuleLevel(logging.NewBackendFormatter(b1, format))
+	b2.SetLevel(logging.ERROR, "")
+	logging.SetBackend(b2)
 
-	backend.SetLevel(logging.ERROR, "")
-	logging.SetBackend(backend)
-}
-
-func main() {
-	setupLogging()
 	ev := yqlib.NewAllAtOnceEvaluator()
 	pr := NewYamlPrinter(os.Stdout, yqlib.YamlOutputFormat, true, false, 2, true)
 	dc := yqlib.NewYamlDecoder()
@@ -44,5 +42,4 @@ func main() {
 	if err != nil {
 		log.Print(err)
 	}
-
 }
