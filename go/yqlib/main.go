@@ -26,7 +26,7 @@ func NewYamlPrinter(
 
 func main() {
 
-	// shitty log shit
+	// shitty log shit, god i HATE op/go-logging (circa 2012)
 	format := logging.MustStringFormatter(
 		`%{color}%{time:15:04:05} %{shortfunc} [%{level:.4s}]%{color:reset} %{message}`,
 	)
@@ -38,7 +38,8 @@ func main() {
 	ev := yqlib.NewAllAtOnceEvaluator()
 	pr := NewYamlPrinter(os.Stdout, yqlib.YamlOutputFormat, true, false, 2, true)
 	dc := yqlib.NewYamlDecoder()
-	err := ev.EvaluateFiles(os.Args[1], []string{"sample.yaml"}, pr, true, dc)
+	//err := ev.EvaluateFiles(os.Args[1], []string{"sample.yaml"}, pr, true, dc)
+	err := ev.EvaluateFiles(os.Args[1], []string{"-"}, pr, true, dc)
 	if err != nil {
 		log.Print(err)
 	}
