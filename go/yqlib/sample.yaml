@@ -1,0 +1,6 @@
+foo: FOO
+bar: BAR
+other:
+  - one
+  - two
+  - three
