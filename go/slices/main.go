@@ -8,7 +8,30 @@ type blah struct {
 	pnames *blah
 }
 
+func testArgs(args []string) {
+	if len(args) == 0 {
+		fmt.Println("args are zero")
+	}
+	if args == nil {
+		fmt.Println("args is nil")
+	}
+}
+
+func testMapArgs(args map[string]string) {
+	if len(args) == 0 {
+		fmt.Println("args are zero")
+	}
+	if args == nil {
+		fmt.Println("args is nil")
+	}
+}
+
 func main() {
+	testArgs(nil)
+	testArgs([]string{})
+	fmt.Println("=======")
+	testMapArgs(nil)
+	testMapArgs(map[string]string{})
 	b := blah{}
 	fmt.Println(b.names)
 	fmt.Println(b.names == nil)
