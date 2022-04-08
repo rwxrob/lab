@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# complete -C ./rewrite ./rewrite
+
+if [[ -n "$COMP_LINE" ]]; then
+  echo blah
+  exit
+fi
+
+echo just me
