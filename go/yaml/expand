@@ -1,0 +1,3 @@
+#!/bin/sh
+yq . -o=j sample.src.yaml | yq . -P > sample.yaml
+

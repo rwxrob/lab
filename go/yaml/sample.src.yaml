@@ -1,10 +1,10 @@
 some: thing
 another: one
-person:
+person: &person
   firstname: John
   lastname: Doe
 rob:
-  firstname: John
+  <<: *person
   lastname: Smith
 commands:
   path: /some/place
