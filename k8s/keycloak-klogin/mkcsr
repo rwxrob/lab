@@ -1,0 +1,62 @@
+#!/bin/bash 
+set -Ce
+
+USAGE="usage: $0 [HOSTNAME]"
+NAME="$1"
+COUNTRY=US
+STATE=NC
+REGION=Davidson
+CN=
+CA_CERT=interm/interm.crt
+CA_KEY=interm/private/interm.key
+
+promptname () {
+  if [[ -z "$NAME" ]]; then
+    if [[ -t 1 ]]; then
+      read -r -p "Hostname? " NAME
+    else
+      echo "$USAGE" 1>&2
+      exit 1
+    fi
+  fi
+  CN="$NAME"
+}
+
+genkey () {
+  # test -e "$NAME".key && echo "cowardly refusing to clobber $NAME.key" 1>&2 && false
+  echo "generating private key for $NAME" 1>&2
+  openssl genrsa -out "$NAME".key 2048
+}
+
+gencsr () {
+  test -e "$NAME.key"
+  openssl req -new -sha512  -key "$NAME.key" \
+    -subj "/C=$COUNTRY/ST=$STATE/L=$REGION/CN=$NAME" \
+    -reqexts SAN \
+    -config <(cat /etc/ssl/openssl.cnf \
+      <(printf "\n[SAN]\nsubjectAltName=DNS:$NAME,DNS:www.$NAME")) \
+    -out "$NAME.csr"
+}
+
+gencrt () {
+  openssl x509 -req \
+    -in "$NAME.csr" \
+    -CA "$CA_CERT" \
+    -CAkey "$CA_KEY" \
+    -CAcreateserial \
+    -out "$NAME.crt" \
+    -days 500 \
+    -sha512 \
+    -extfile <(printf "subjectAltName=DNS:$NAME,DNS:www.$NAME")
+}
+
+gender () {
+  openssl x509 -in "$NAME".crt -out "$NAME".der -outform DER
+}
+
+promptname
+[[ ! -e "$NAME".key ]] && genkey
+gencsr
+gencrt
+gender
+    
