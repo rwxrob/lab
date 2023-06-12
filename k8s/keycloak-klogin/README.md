@@ -1,5 +1,7 @@
 # Desktop (containers) for developing klogin binary against Keycloak OIDC provider
 
+1. Register a domain name pointing to a LAN ip address 
+    * ex: home.rwx.gg -> 192.168.1.200
 1. Create root CA
 1. Create intermediate CA
 1. Create a server certificate for Keycloak
@@ -9,6 +11,9 @@
 1. Add certificates to required "local" keyrings
 1. Configure minikube to use TLS certs and OIDC
 1. Code `klogin` to update `~/.kube/config`
+
+## Setting up a local development environment
+
 
 Related:
 
