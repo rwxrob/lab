@@ -1,7 +1,11 @@
 # Desktop (containers) for developing klogin binary against Keycloak OIDC provider
 
-* Enable cgroupv2 in WSL for `kind`
-* `choco install kind` on Windows
+1. Create root CA
+1. Create intermediate CA
+1. Configure TLS in Keycloak
+1. Add certificates to required keyrings
+1. Configure minikube to use TLS certs and OIDC
+1. Code `klogin` to update `~/.kube/config`
 
 Related:
 
@@ -17,3 +21,10 @@ Related:
   <https://www.mastertheboss.com/keycloak/secure-keycloak-with-https/>
 * Private CA Part 1: Building your own root and intermediate certificate authority - Artiom\'s Sketchpad  
   <https://www.flexlabs.org/2019/07/private-ca-1-building-root-and-intermediate-ca>
+* Configuring TLS - Keycloak  
+  <https://www.keycloak.org/server/enabletls>
+* Generate self-signed certificate with a custom root CA - Azure Application Gateway \| Microsoft Learn  
+  <https://learn.microsoft.com/en-us/azure/application-gateway/self-signed-certificates>
+* <https://gist.github.com/fntlnz/cf14feb5a46b2eda428e000157447309>
+* Generate self-signed certificate with a custom root CA - Azure Application Gateway \| Microsoft Learn  
+  <https://learn.microsoft.com/en-us/azure/application-gateway/self-signed-certificates>
