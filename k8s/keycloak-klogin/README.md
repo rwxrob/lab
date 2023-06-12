@@ -10,6 +10,24 @@ Create a safe (containerized) sandbox that emulates an closed enterprise network
 * Keycloak configured to use server cert (with keyring updates as well). (`keycloak`)
 * Simulated Go development box with keyring updated with CA certs. (`dev`)
 
+```sh
+podman run \
+  --hostname home.rwx.gg \
+  --name keycloak \
+  --rm \
+  -p 8080:8080 \
+  -p 8443:8443 \
+  -e KEYCLOAK_ADMIN=admin \
+  -e KEYCLOAK_ADMIN_PASSWORD=admin \
+  -e KEYCLOAK_HOSTNAME=home.rwx.gg \
+  -v ~/shared:/shared/ \
+  quay.io/keycloak/keycloak:21.1.1 \
+  start-dev \
+    --https-port=8443 \
+    --https-certificate-file=/shared/home.rwx.gg.crt \
+    --https-certificate-key-file=/shared/home.rwx.gg.key
+```
+
 ## Steps
 
 1. Register a domain name pointing to a LAN ip address
@@ -49,4 +67,5 @@ Related:
 * <https://gist.github.com/fntlnz/cf14feb5a46b2eda428e000157447309>
 * Generate self-signed certificate with a custom root CA - Azure Application Gateway \| Microsoft Learn  
   <https://learn.microsoft.com/en-us/azure/application-gateway/self-signed-certificates>
-
+* `certgen` script  
+  <https://github.com/aurae-runtime/aurae/blob/main/hack/certgen>
