@@ -22,6 +22,8 @@ Create a safe (containerized) sandbox that emulates an enterprise in order to cr
 
 Related:
 
+* Setting up a development containerized workspace  
+  <https://link.excalidraw.com/l/6rjSvoGlOkc/7nG4ZhdXCZA>
 * Kind, Keycloak --- Securing Kubernetes api server with OIDC \| by Charles-Edouard Brétéché \| Medium  
   <https://medium.com/@charled.breteche/kind-keycloak-securing-kubernetes-api-server-with-oidc-371c5faef902>
 * How to Secure Your Kubernetes Cluster with OpenID Connect and RBAC \| Okta Developer  
@@ -41,3 +43,4 @@ Related:
 * <https://gist.github.com/fntlnz/cf14feb5a46b2eda428e000157447309>
 * Generate self-signed certificate with a custom root CA - Azure Application Gateway \| Microsoft Learn  
   <https://learn.microsoft.com/en-us/azure/application-gateway/self-signed-certificates>
+
