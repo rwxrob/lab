@@ -2,8 +2,11 @@
 
 1. Create root CA
 1. Create intermediate CA
+1. Create a server certificate for Keycloak
 1. Configure TLS in Keycloak
-1. Add certificates to required keyrings
+    1. Mount share into container
+    1. Run container with volume mounts and TLS arguments
+1. Add certificates to required "local" keyrings
 1. Configure minikube to use TLS certs and OIDC
 1. Code `klogin` to update `~/.kube/config`
 
