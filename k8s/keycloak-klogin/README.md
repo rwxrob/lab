@@ -2,7 +2,13 @@
 
 ## Goal
 
-Create a safe (containerized) sandbox that emulates an enterprise in order to create and develop applications with a custom root certificate authority, intermediate CA, and traditional, domain-based server certificates.
+Create a safe (containerized) sandbox that emulates an closed enterprise network in order to create and develop applications with a custom root certificate authority, intermediate CA, and traditional, domain-based server certificates.
+
+## Target containers
+
+* Simulated "offline" linux host to create and manage root and interm CA. (`ca`)
+* Keycloak configured to use server cert (with keyring updates as well). (`keycloak`)
+* Simulated Go development box with keyring updated with CA certs. (`dev`)
 
 ## Steps
 
