@@ -1,7 +1,14 @@
 # Desktop (containers) for developing klogin binary against Keycloak OIDC provider
 
+## Goal
+
+Create a safe (containerized) sandbox that emulates an enterprise in order to create and develop applications with a custom root certificate authority, intermediate CA, and traditional, domain-based server certificates.
+
+## Steps
+
 1. Register a domain name pointing to a LAN ip address
-    * `home.rwx.gg -> 192.168.1.200`
+    * Example: `home.rwx.gg -> 192.168.1.200`
+    * Add to `/etc/hosts` for tab completion
 1. Create root CA
 1. Create intermediate CA
 1. Create a server certificate for Keycloak
