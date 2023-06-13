@@ -20,12 +20,13 @@ Create a safe (containerized) sandbox that emulates an closed enterprise network
 1. Create a server certificate for Keycloak
 1. Configure TLS in Keycloak
     1. Mount share into container
-    1. Run container with volume mounts and TLS arguments
+    1. Run container with volume mounts and TLS arguments ([`startkeycloak`](startkeycloak))
+1. Add root and intermediate CA to Chrome 
 1. Add certificates to required "local" keyrings
 1. Configure minikube to use TLS certs and OIDC
 1. Code `klogin` to update `~/.kube/config`
 
-## Adding root and intermediate CA to Chrome
+## Add root and intermediate CA to Chrome
 
 1. Copy the `crt` and `key` files onto the machine with Chrome on Windows.
 1. Click on top right button and select **Settings** from menu.
@@ -42,7 +43,24 @@ Repeat the same steps but do it for **Intermediate CA** tab.
 
 After finishing, confirm that the domain now shows as "Secure" when visiting pages served from it.
 
-Related:
+## Add `home.rwx.gg.crt` to root CA certs on `localhost`
+
+On Ubuntu:
+
+```sh
+sudo cp /shared/home.rwx.gg.crt /usr/local/share/ca-certificates
+sudo update-ca-certificates
+```
+
+After that the `--cacert` argument to `curl` is no longer needed.
+
+Also see [`gettoken`](gettoken) for the logic to detect if root CA is loaded onto the system or not and if not use a simulated embedded file.
+
+## Start minikube using own root CA with OIDC connect authentication
+
+1. TODO 
+
+## Related
 
 * Setting up a development containerized workspace  
   <https://link.excalidraw.com/l/6rjSvoGlOkc/7nG4ZhdXCZA>
@@ -67,3 +85,5 @@ Related:
   <https://learn.microsoft.com/en-us/azure/application-gateway/self-signed-certificates>
 * `certgen` script  
   <https://github.com/aurae-runtime/aurae/blob/main/hack/certgen>
+* <https://www.digitalocean.com/community/tutorials/how-to-set-up-and-configure-a-certificate-authority-ca-on-ubuntu-20-04#prerequisites>
+           

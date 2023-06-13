@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -Ce
+
+# This script is a prototype to working grant_type=password flow from
+# OIDC provider. The tokens will be written to the ~/.kube/config file in
+# the final (Go) version.
+
+[[ -z "$K8SUSER" ]] && read -r -p 'Username: ' K8SUSER
+[[ -z "$K8SPASS" ]] && read -rs -p 'Password: ' K8SPASS
+
+RAW=
+
+fetch () {
+  printf "Fetching token using system root CA(s) ... " >&2
+  curl -sSL \
+    -d client_id=minikube \
+    -d grant_type=password \
+    -d username="$K8SUSER" \
+    -d password="$K8SPASS" \
+    https://home.rwx.gg:8443/realms/k8s/protocol/openid-connect/token 2>/dev/null && echo "done." >&2
+}
+
+fetch_with_ca () {
+  printf "Fetching token using --cacert /shared/home.rwx.gg.crt ... " >&2
+  curl -sSL \
+    --cacert /shared/home.rwx.gg.crt \
+    -d client_id=minikube \
+    -d grant_type=password \
+    -d username="$K8SUSER" \
+    -d password="$K8SPASS" \
+    https://home.rwx.gg:8443/realms/k8s/protocol/openid-connect/token 2>/dev/null && echo "done." >&2
+}
+
+parse_access_token_jwt () {
+  token=$(parse_access_token)
+  token=${token%.*}
+  token=${token#*.}
+  base64 -d <<< "$token" 2>/dev/null |jq
+}
+
+parse_access_token () {
+  [[ -z "$RAW" ]] && RAW=$(fetch) && true
+  [[ -z "$RAW" ]] && RAW=$(fetch_with_ca)
+  jq -r .access_token <<< "$RAW"
+}
+
+parse_access_token
+
