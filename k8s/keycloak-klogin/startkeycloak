@@ -1,0 +1,23 @@
+#!/bin/sh
+
+## This script starts the standard development Keycloak podman container
+## with TLS enabled allowing TLS validation in any OIDC token requests to
+## be on.
+
+## Remember to create a LAN IP for the domain name contained in the cert(s)
+NAME=home.rwx.gg
+
+podman run \
+  --hostname "$NAME" \
+  --name keycloak \
+  --rm \
+  -p 8443:8443 \
+  -e KEYCLOAK_ADMIN=admin \
+  -e KEYCLOAK_ADMIN_PASSWORD=admin \
+  -e KEYCLOAK_HOSTNAME="$NAME" \
+  -v ~/shared:/shared/ \
+  quay.io/keycloak/keycloak:latest \
+  start-dev \
+    --https-port=8443 \
+    --https-certificate-file=/shared/"$NAME".crt \
+    --https-certificate-key-file=/shared/"$NAME".key

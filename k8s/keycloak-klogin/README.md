@@ -10,24 +10,6 @@ Create a safe (containerized) sandbox that emulates an closed enterprise network
 * Keycloak configured to use server cert (with keyring updates as well). (`keycloak`)
 * Simulated Go development box with keyring updated with CA certs. (`dev`)
 
-```sh
-podman run \
-  --hostname home.rwx.gg \
-  --name keycloak \
-  --rm \
-  -p 8080:8080 \
-  -p 8443:8443 \
-  -e KEYCLOAK_ADMIN=admin \
-  -e KEYCLOAK_ADMIN_PASSWORD=admin \
-  -e KEYCLOAK_HOSTNAME=home.rwx.gg \
-  -v ~/shared:/shared/ \
-  quay.io/keycloak/keycloak:21.1.1 \
-  start-dev \
-    --https-port=8443 \
-    --https-certificate-file=/shared/home.rwx.gg.crt \
-    --https-certificate-key-file=/shared/home.rwx.gg.key
-```
-
 ## Steps
 
 1. Register a domain name pointing to a LAN ip address
@@ -43,6 +25,22 @@ podman run \
 1. Configure minikube to use TLS certs and OIDC
 1. Code `klogin` to update `~/.kube/config`
 
+## Adding root and intermediate CA to Chrome
+
+1. Copy the `crt` and `key` files onto the machine with Chrome on Windows.
+1. Click on top right button and select **Settings** from menu.
+1. Click on **Privacy and Security** on list on the left.
+1. Click on **Security** in the middle of page.
+1. Scroll down to **Manage Device Certificates** and click.
+1. A system's dialog window will open.
+1. Click on **Trusted Root CA** tab.
+1. Click on **Import** and click **Next* on the Welcome screen.
+1. Click **Browse** to find `crt` file.
+1. Validate new CA is in the list.
+
+Repeat the same steps but do it for **Intermediate CA** tab.
+
+After finishing, confirm that the domain now shows as "Secure" when visiting pages served from it.
 
 Related:
 
