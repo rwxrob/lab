@@ -56,6 +56,20 @@ After that the `--cacert` argument to `curl` is no longer needed.
 
 Also see [`gettoken`](gettoken) for the logic to detect if root CA is loaded onto the system or not and if not use a simulated embedded file.
 
+## Creating a root CA TLS HTTP client request in Go
+
+Go will use the system TLS certs if there is no TLS CertPool added.
+
+* <https://gist.github.com/michaljemala/d6f4e01c4834bf47a9c4>
+
+```golang
+  const caCert = `...`
+  caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(caCert)
+	transport := &http.Transport{TLSClientConfig: &tls.Config{RootCAs: caCertPool}}
+	client := &http.Client{Transport: transport}
+```
+
 ## Start minikube using own root CA with OIDC connect authentication
 
 1. TODO 
@@ -86,4 +100,8 @@ Also see [`gettoken`](gettoken) for the logic to detect if root CA is loaded ont
 * `certgen` script  
   <https://github.com/aurae-runtime/aurae/blob/main/hack/certgen>
 * <https://www.digitalocean.com/community/tutorials/how-to-set-up-and-configure-a-certificate-authority-ca-on-ubuntu-20-04#prerequisites>
-           
+* Minimal CA + Cert script generator  
+  <https://github.com/dexidp/dex/blob/master/examples/k8s/gencert.sh>
+* OIDC Login to Kubernetes and Kubectl with Keycloak  
+  <https://www.talkingquickly.co.uk/setting-up-oidc-login-kubernetes-kubectl-with-keycloak>
+* <https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens>

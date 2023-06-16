@@ -14,6 +14,7 @@ fetch () {
   printf "Fetching token using system root CA(s) ... " >&2
   curl -sSL \
     -d client_id=minikube \
+    -d scope=openid \
     -d grant_type=password \
     -d username="$K8SUSER" \
     -d password="$K8SPASS" \
@@ -25,6 +26,7 @@ fetch_with_ca () {
   curl -sSL \
     --cacert /shared/home.rwx.gg.crt \
     -d client_id=minikube \
+    -d scope=openid \
     -d grant_type=password \
     -d username="$K8SUSER" \
     -d password="$K8SPASS" \
@@ -44,5 +46,13 @@ parse_access_token () {
   jq -r .access_token <<< "$RAW"
 }
 
-parse_access_token
+#parse_access_token
 
+parse_id_token () {
+  [[ -z "$RAW" ]] && RAW=$(fetch) && true
+  [[ -z "$RAW" ]] && RAW=$(fetch_with_ca)
+  jq -r .id_token <<< "$RAW"
+}
+
+fetch_with_ca
+#parse_access_token_jwt
