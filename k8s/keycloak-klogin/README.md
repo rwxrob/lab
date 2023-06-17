@@ -105,3 +105,5 @@ Go will use the system TLS certs if there is no TLS CertPool added.
 * OIDC Login to Kubernetes and Kubectl with Keycloak  
   <https://www.talkingquickly.co.uk/setting-up-oidc-login-kubernetes-kubectl-with-keycloak>
 * <https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens>
+* <https://ahmet.im/blog/mastering-kubeconfig/>
+* <https://kubernetes.io/docs/reference/config-api/kubeconfig.v1/>
