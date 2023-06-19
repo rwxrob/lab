@@ -62,7 +62,7 @@ Go will use the system TLS certs if there is no TLS CertPool added.
 
 * <https://gist.github.com/michaljemala/d6f4e01c4834bf47a9c4>
 
-```golang
+```go
   const caCert = `...`
   caCertPool := x509.NewCertPool()
 	caCertPool.AppendCertsFromPEM(caCert)
@@ -70,9 +70,12 @@ Go will use the system TLS certs if there is no TLS CertPool added.
 	client := &http.Client{Transport: transport}
 ```
 
-## Start minikube using own root CA with OIDC connect authentication
+Then to get an OIDC provider is just a couple more lines:
 
-1. TODO 
+```go
+ctx := oidc.ClientContext(context.Background(), client)
+return oidc.NewProvider(ctx, issuerURL) // https://home.rwx.gg:8443/realms/k8s
+```
 
 ## Related
 
@@ -107,3 +110,5 @@ Go will use the system TLS certs if there is no TLS CertPool added.
 * <https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens>
 * <https://ahmet.im/blog/mastering-kubeconfig/>
 * <https://kubernetes.io/docs/reference/config-api/kubeconfig.v1/>
+* Resource Owner Password Flow with OIDC  
+  <https://auth0.com/docs/authenticate/login/oidc-conformant-authentication/oidc-adoption-rop-flow>

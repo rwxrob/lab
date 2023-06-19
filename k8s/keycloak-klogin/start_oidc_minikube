@@ -1,19 +1,48 @@
 #!/usr/bin/env bash
+set -Ce
+
+USER=rwxrob
 
 ## This scripts starts up minikube with "OIDC Connect" authentication strategy.
 ## https://kubernetes.io/docs/reference/access-authn-authz/authentication/
 
 ## Don't forget to add realm to the URL if using Keycloak
 ## Client key is not needed for public users in Keycloak
-ISSUERURL="https://home.rwx.gg:8443/realms/k8s"
-CLIENTID=minikube
 
 # Make sure to put root CA (or interm root CA) into ~/.minikube/certs before
 # running this for the first time so that it will be used to create ~/.minikube/ca.crt
 # which will be referenced form the ~/.kube/config file under cluster.
 
-minikube start \
-    --extra-config=apiserver.oidc-issuer-url="$ISSUERURL" \
+minikube-start () {
+  profile="$1"
+  test -n "$profile"
+  issuer="https://home.rwx.gg:8443/realms/$profile"
+  clientid="minikube-$profile"
+
+  minikube delete -p "$profile"
+  minikube start -p "$profile" \
+    --extra-config=apiserver.oidc-issuer-url="$issuer" \
     --extra-config=apiserver.oidc-username-claim=preferred_username \
     --extra-config=apiserver.oidc-username-prefix=oidc: \
-    --extra-config=apiserver.oidc-client-id="$CLIENTID"
+    --extra-config=apiserver.oidc-client-id="$clientid"
+}
+
+# create and start the kubernetes clusters
+for i in prod dev inf; do minikube-start $i; done
+
+
+# add role to allow user to access k8s resources and install dashboard
+for i in prod dev inf; do
+  kubectl config use-context $i
+  kubectl create clusterrolebinding oidc-cluster-admin \
+    --clusterrole=cluster-admin \
+    --user="oidc:$USER" || true
+done
+
+# install k8s dashboard into each
+for i in prod dev inf; do
+   kubectl apply \
+     -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+done
+
+minikube profile list
