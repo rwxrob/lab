@@ -21,6 +21,8 @@ Create a safe (containerized) sandbox that emulates an closed enterprise network
 1. Configure TLS in Keycloak
     1. Mount share into container
     1. Run container with volume mounts and TLS arguments ([`startkeycloak`](startkeycloak))
+    1. Extend session to 1 day
+    1. Extend access token expiration to 1 day
 1. Add root and intermediate CA to Chrome 
 1. Add certificates to required "local" keyrings
 1. Configure minikube to use TLS certs and OIDC
