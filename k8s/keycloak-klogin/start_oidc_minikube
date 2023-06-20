@@ -31,12 +31,15 @@ minikube-start () {
 for i in prod dev inf; do minikube-start $i; done
 
 
-# add role to allow user to access k8s resources and install dashboard
+# add role to allow user to access k8s resources
+# add default namespace for user
+# install dashboard
 for i in prod dev inf; do
   kubectl config use-context $i
   kubectl create clusterrolebinding oidc-cluster-admin \
     --clusterrole=cluster-admin \
     --user="oidc:$USER" || true
+  kubectl create ns rwxrob
 done
 
 # install k8s dashboard into each

@@ -112,3 +112,5 @@ return oidc.NewProvider(ctx, issuerURL) // https://home.rwx.gg:8443/realms/k8s
 * <https://kubernetes.io/docs/reference/config-api/kubeconfig.v1/>
 * Resource Owner Password Flow with OIDC  
   <https://auth0.com/docs/authenticate/login/oidc-conformant-authentication/oidc-adoption-rop-flow>
+* Adding a Name to the Kubernetes API Server Certificate - Scott\'s Weblog - The weblog of an IT pro focusing on cloud computing, Kubernetes, Linux, containers, and networking  
+  <https://blog.scottlowe.org/2019/07/30/adding-a-name-to-kubernetes-api-server-certificate/>
