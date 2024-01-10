@@ -1,0 +1,13 @@
+%YAML 1.1
+---
+title: YAML Ain't Markup Language™
+foo: bar
+%YAML 1.1
+---
+another: thing
+one: 1
+%YAML 1.1
+%TAG ! tag:ben-kiki.org,2000:app/
+---
+some: random thing
+
