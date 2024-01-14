@@ -15,6 +15,10 @@ configish: |
   alist:
     - some: thing
       laugh: muahaha
+unrelated: |
+  I am a random string paragraph that just happens to have
+  some: thing on a line by itself
+  and more stuff after that.
 ---
 some: other thing
 ---

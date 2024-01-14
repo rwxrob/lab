@@ -86,3 +86,18 @@ func ExampleToYAML() {
 	// key: immakey
 	// val: immaval
 }
+
+func ExampleToYAMLDocs() {
+
+	first := map[string]any{`key1`: `value`}
+	second := map[string]any{`key1`: `value`}
+	it := []map[string]any{first, second}
+
+	fmt.Print(string(simple.ToYAMLDocs(it)))
+
+	// Output:
+	// ---
+	// key1: value
+	// ---
+	// key1: value
+}

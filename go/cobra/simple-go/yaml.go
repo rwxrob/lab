@@ -53,3 +53,12 @@ func ToYAML(in any) []byte {
 	}
 	return byt
 }
+
+func ToYAMLDocs(in []map[string]any) []byte {
+	byt := new(bytes.Buffer)
+	for _, it := range in {
+		byt.WriteString("---\n")
+		byt.Write(ToYAML(it))
+	}
+	return byt.Bytes()
+}
