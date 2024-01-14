@@ -14,3 +14,14 @@ func ExampleGreet() {
 	// Hello, Rob!
 
 }
+
+/*
+func ExampleGreet_noargs() {
+
+	fmt.Println(simple.Greet(``))
+
+	// Output:
+	// Hello there.
+
+}
+*/
