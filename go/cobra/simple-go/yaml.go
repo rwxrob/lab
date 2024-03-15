@@ -14,21 +14,25 @@ type yamlMap struct {
 
 // Format just returns a string with the YAML formatted by default
 // yaml.v3.
-func FormatYAML(in []byte) ([]byte, error) {
-	maps, err := ParseYAMLMaps(in)
+func FormatYAML(r io.Reader) ([]byte, error) {
+	maps, err := ParseYAMLMaps(r)
 	if err != nil {
 		return nil, err
 	}
 	var out string
 	for _, m := range maps {
-		out += "---\n" + string(ToYAML(m))
+		byt, err := yaml.Marshal(m)
+		if err != nil {
+			return byt, err
+		}
+		out += "---\n" + string(byt)
 	}
 	return []byte(out), nil
 }
 
-func ParseYAMLMaps(in []byte) ([]map[string]any, error) {
+func ParseYAMLMaps(r io.Reader) ([]map[string]any, error) {
 	maps := []map[string]any{}
-	d := yaml.NewDecoder(bytes.NewReader(in))
+	d := yaml.NewDecoder(r)
 	for {
 		ymap := new(yamlMap)
 		err := d.Decode(ymap)
@@ -46,19 +50,19 @@ func ParseYAMLMaps(in []byte) ([]map[string]any, error) {
 	return maps, nil
 }
 
-func ToYAML(in any) []byte {
-	byt, err := yaml.Marshal(in)
-	if err != nil {
-		byt = []byte(`null`)
+func ToYAML(it any) ([]byte, error) {
+	switch v := it.(type) {
+	case []*yaml.Node:
+		buf := new(bytes.Buffer)
+		for _, node := range v {
+			buf.WriteString("---\n")
+			byt, err := yaml.Marshal(node)
+			if err != nil {
+				return nil, err
+			}
+			buf.Write(byt)
+		}
+		return buf.Bytes(), nil
 	}
-	return byt
-}
-
-func ToYAMLDocs(in []map[string]any) []byte {
-	byt := new(bytes.Buffer)
-	for _, it := range in {
-		byt.WriteString("---\n")
-		byt.Write(ToYAML(it))
-	}
-	return byt.Bytes()
+	return yaml.Marshal(it)
 }
