@@ -14,8 +14,9 @@ var fsys embed.FS
 func main() {
 
 	info1, err := fs.Stat(fsys, "files/1gbfile")
+	//	info1, err := fs.Stat(fsys, "files/busybox")
 	if err != nil {
-		log.Print(err)
+		log.Fatal(err)
 	}
 
 	//fmt.Println(info1)
