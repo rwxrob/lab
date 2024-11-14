@@ -1,0 +1,6 @@
+foo:
+  thing: here
+  deep:
+    key: original
+bar:
+  thing: here

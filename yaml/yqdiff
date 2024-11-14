@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+exec diff <(yq 'sort_keys(..)' -P "$1") <(yq 'sort_keys(..)' -P "$2")
