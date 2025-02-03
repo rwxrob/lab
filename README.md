@@ -1,21 +1,9 @@
-# Sandbox for Exploring, Experimenting 
+# Sandbox for exploring, experimenting with code
 
 *Learning happens in the lab, not the lecture hall.*
 
-The X in [RWX] is for exploration and experimentation, the most
-important part of any learning method. This repo is where I figure out
-how stuff works (and prepare other labs to help others figure stuff out
-as well). I decided to combine all the languages and technologies into
-one `lab` repo since they all cross-over so much. The only that
-distinguishes this [Zettelkasten] repo from my others is that this one
-is focused on code, setup, and configurations. Zettel (directories) will
-likely have a lot in them besides just a single `README.md`. Unlike the
-others, each lab will have an actual commit message instead of the
-Zettel title.
+## LEGAL
 
-*I once called such a sandbox, working repo a "code book". Only the name
-has changed.*
+Copyright © 2024 Robert S. Muhlestein (rwxrob). All rights reserved.
 
-[Zettelkasten]: <https://github.com/rwxrob/zet/20210502004642>
-[RWX]: <https://github.com/rwxrob/zet/search?q=RWX Method>
-
+The code portions of these notes are dedicated to the public domain under the terms of the **Creative Commons Zero (CC0 1.0 Universal)** license (https://creativecommons.org/publicdomain/zero/1.0/). This means you are free to copy, modify, distribute the _code portions only_, even for commercial purposes, without asking permission, and without saying where you got them. This is so there is no fear your creations are your own after learning to code using them.

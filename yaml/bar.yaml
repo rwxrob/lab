@@ -1,6 +1,10 @@
 bar:
+  # this is a bar comment
   thing: here
 foo:
+  # this is a multiline foo comment
+  # another line of foo comment
   thing: here
   deep:
+    # this is a key comment
     key: unique
